@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { createCamera } from './camera.js';
 
 // Youtube tutorial for next steps : https://www.youtube.com/watch?v=EJaoZTgDK2s
 
@@ -7,11 +8,8 @@ export function createScene(){
     const gameWindow = document.getElementById('render-target');
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x777777);
-    
-    const camera = new THREE.PerspectiveCamera(75, gameWindow.offsetWidth / gameWindow.offsetHeight, 0.1, 1000);
 
-camera.position.z = 5;
-
+    const camera = createCamera(gameWindow);
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(gameWindow.offsetWidth, gameWindow.offsetHeight);
@@ -30,9 +28,7 @@ camera.position.z = 5;
 
 
     function draw(){
-        mesh.rotation.x += 0.01;
-        mesh.rotation.y += 0.01;
-        renderer.render(scene, camera);
+        renderer.render(scene, camera.camera);
     }
 
     function start(){
@@ -43,8 +39,25 @@ camera.position.z = 5;
         renderer.setAnimationLoop(null);
     }
 
+    function onMouseDown(event){
+        camera.onMouseDown(event);
+    }
+
+    function onMouseUp(event){
+        camera.onMouseUp(event);
+    }
+
+    function onMouseMove(event){
+        camera.onMouseMove(event);
+    }
+
+
+
     return{
         start,
-        stop
+        stop,
+        onMouseDown,
+        onMouseUp,
+        onMouseMove
     }
 }
