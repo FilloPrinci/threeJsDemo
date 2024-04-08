@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { createCamera } from './camera.js';
 
-// Youtube tutorial for next steps : https://www.youtube.com/watch?v=EJaoZTgDK2s
+// Youtube tutorial for next steps : https://www.youtube.com/watch?v=cD-4vHTiUyw
 
 export function createScene(){
     // Initial scene setup
