@@ -10,9 +10,10 @@
             <div id="render-target"></div>
         </div>
         <script type="module">
-            import {createGame} from './src/game.js';
+            import {createSimCityGame, createTestGame} from './src/game.js';
             window.onload = () => {
-                window.game = createGame();
+                //window.game = createSimCityGame();
+                window.game = createTestGame();
             } 
         </script>
     </body>
