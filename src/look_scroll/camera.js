@@ -6,15 +6,17 @@ export function createScrollCamera(gameWindow){
     const MIDDLE_MOUSE_BUTTON = 1;
     const RIGHT_MOUSE_BUTTON = 2;
 
-    const CAMERA_MAX_HIGH = 2;
-    const CAMERA_MIN_HIGH = 0;
+    const CAMERA_MAX_HIGH = 4;
+    const CAMERA_MIN_HIGH = 0.1;
+
+    const SCROLL_SENSITIVITY = 0.002;
 
     const Y_AXIS = new THREE.Vector3(0, 1, 0);
     const camera = new THREE.PerspectiveCamera(75, gameWindow.offsetWidth / gameWindow.offsetHeight, 0.1, 1000);
     let isLeftMouseDown = false;
     let isMiddleMouseDown = false;
     let isRightMouseDown = false;
-    camera.position.set(10, 2, 10);
+    camera.position.set(5, CAMERA_MAX_HIGH, 5);
     camera.rotation.set(0, 0, 0);
     updateCameraPosition();
 
@@ -54,7 +56,7 @@ export function createScrollCamera(gameWindow){
         console.log('onWhell');
         const direction = -event.deltaY;
 
-        const offsetY = direction * 0.005; 
+        const offsetY = direction * SCROLL_SENSITIVITY; 
 
         var newPosition = new THREE.Vector3(camera.position.x, camera.position.y + offsetY, camera.position.z);
 

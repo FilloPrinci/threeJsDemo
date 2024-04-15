@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { createScrollCamera } from './camera.js';
 import { GxObjs } from './meshes.js';
+import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 
 // Youtube tutorial for next steps : https://www.youtube.com/watch?v=cD-4vHTiUyw
 
@@ -21,9 +22,29 @@ export function createLookScrollScene(){
 
         scene.clear();
 
+        const plane = new THREE.Mesh(
+            new THREE.PlaneGeometry(500, 500),
+            new THREE.MeshStandardMaterial(
+                {
+                    roughness: 0,
+                    envMapIntensity: 0.2 
+                }
+            ),
+        );
+        plane.rotation.x = -Math.PI / 2;
+        scene.add(plane);
+
+        new GLTFLoader().load('models/FP.glb', (gltf) => {
+            const mesh = gltf.scene;
+            mesh.rotation.x = Math.PI / 2;
+            mesh.position.set(0, 2, 0);
+            scene.add(mesh);
+        } )
+
+        /*
         const testCube = gxObjs.cube(new THREE.Vector3(1, 4, 1));
         scene.add(testCube);
-
+        */
         setupLights();
     }
 
