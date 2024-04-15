@@ -31,7 +31,7 @@ const assets = {
     'building-3': (x, y) => {
         const buildingMaterial = new THREE.MeshLambertMaterial({color: 0x777777});
         const mesh = new THREE.Mesh(geometry, buildingMaterial);
-        mesh.scale.set(1, 2, 1);
+        mesh.scale.set(1, 3, 1);
         mesh.userData = {id: 'building-3'};
         mesh.position.set(x, 1.5, y);
         return mesh;
