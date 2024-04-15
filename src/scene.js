@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { createCamera } from './camera.js';
-
+import { createAssetInstance } from './assets.js';
 // Youtube tutorial for next steps : https://www.youtube.com/watch?v=cD-4vHTiUyw
 
 export function createScene(){
@@ -26,15 +26,9 @@ export function createScene(){
         for(let x = 0; x < city.size; x++){
             const column = [];
             for(let y = 0; y < city.size; y++){
-                // 1. load the mesh/3D object corresponding to the tile at (x,y)
-                // 2. add that mesh to the scene
-                // 3. add that mesh to the meshes array
-
-                // Grass geometry
-                const geometry = new THREE.BoxGeometry(1, 1, 1);
-                const material = new THREE.MeshLambertMaterial({color: 0x00aa00});
-                const mesh = new THREE.Mesh(geometry, material);
-                mesh.position.set(x, -0.5, y);
+                const terrainId = city.data[x][y].terrainId;
+                const mesh = createAssetInstance(terrainId, x, y);
+                
                 scene.add(mesh);
                 column.push(mesh);
             }
@@ -50,23 +44,21 @@ export function createScene(){
         for(let x = 0; x < city.size; x++){
             for(let y = 0; y < city.size; y++){
 
-                // Building geometry
-                const tile = city.data[x][y];
+               const currentBuildingId = buildings[x][y]?.userData.id;
+               const newBuildingId = city.data[x][y].buildingId;
 
-                if(tile.building && tile.building.startsWith('building')){
-                    const height = Number(tile.building.slice(-1));
-                    const buildingGeometry = new THREE.BoxGeometry(1, height, 1);
-                    const buildingMaterial = new THREE.MeshLambertMaterial({color: 0x777777});
-                    const buildigMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
-                    buildigMesh.position.set(x, height / 2, y);
+               //If the player removes a building, remove it from the scene
+               if(!newBuildingId && currentBuildingId){
+                scene.remove(buildings[x][y]);
+                buildings[x][y] = undefined;
+               }
 
-                    if(buildings[x][y]){
-                        scene.remove(buildings[x][y]);
-                    }
-
-                    scene.add(buildigMesh);
-                    buildings[x][y] = buildigMesh;
-                }
+               // If the data model has changed, update the mesh
+               if(newBuildingId != currentBuildingId){
+                scene.remove(buildings[x][y]);
+                buildings[x][y] = createAssetInstance(newBuildingId, x, y);
+                scene.add(buildings[x][y]);
+               }
             }
         }
     }

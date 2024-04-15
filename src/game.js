@@ -3,7 +3,7 @@ import { createCity } from "./city.js";
 
 export function createGame() {
   const scene = createScene();
-  const city = createCity(32);
+  const city = createCity(128);
 
   scene.initialize(city);
 
