@@ -112,6 +112,9 @@ export function createScene(){
         camera.onMouseMove(event);
     }
 
+    function onScroll(event){
+        console.log('onScroll');
+    }
 
 
     return{
@@ -121,6 +124,7 @@ export function createScene(){
         stop,
         onMouseDown,
         onMouseUp,
-        onMouseMove
+        onMouseMove,
+        onWheel: onScroll
     }
 }

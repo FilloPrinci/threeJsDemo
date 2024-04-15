@@ -1,16 +1,16 @@
 import * as THREE from 'three';
-import { createCamera } from '../camera.js';
+import { createScrollCamera } from './camera.js';
 import { GxObjs } from './meshes.js';
 
 // Youtube tutorial for next steps : https://www.youtube.com/watch?v=cD-4vHTiUyw
 
-export function createTestScene(){
+export function createLookScrollScene(){
     // Initial scene setup
     const gameWindow = document.getElementById('render-target');
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x777777);
 
-    const camera = createCamera(gameWindow);
+    const camera = createScrollCamera(gameWindow);
     const gxObjs = GxObjs();
 
     const renderer = new THREE.WebGLRenderer();
@@ -21,28 +21,13 @@ export function createTestScene(){
 
         scene.clear();
 
-        const testCube = gxObjs.cube(new THREE.Vector3(4, 4, 4));
+        const testCube = gxObjs.cube(new THREE.Vector3(1, 4, 1));
         scene.add(testCube);
 
         setupLights();
     }
 
     function update(){
-    }
-
-    function cube(size, color){
-        geometrySize : undefined;
-        if(size){
-            geometrySize : size;
-        }else{
-            geometrySize : THREE.Vector3(1, 1, 1);
-        }
-
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshLambertMaterial({color: color});
-        const mesh = new THREE.Mesh(geometry, material);
-
-        return mesh;
     }
 
     function setupLights(){
@@ -86,7 +71,7 @@ export function createTestScene(){
     }
 
     function onScroll(event){
-        console.log('onScroll');
+        camera.onWheel(event);
     }
 
     return{
